@@ -4,9 +4,6 @@ import { useCallback, useState } from "react";
 import Input from "@/components/input";
 
 import {signIn} from "next-auth/react"
-import { sign } from 'crypto';
-
-import { useRouter } from 'next/router';
 
 import {FcGoogle} from 'react-icons/fc'
 import {FaGithub} from 'react-icons/fa'
@@ -14,8 +11,6 @@ import {FaGithub} from 'react-icons/fa'
 
  const Auth = ()=> {
     
-    const router = useRouter();
- 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -30,14 +25,12 @@ import {FaGithub} from 'react-icons/fa'
         try {
             await signIn('credentials', {
                 email, password,
-                redirect : false,
-                callbackUrl: '/'
+                callbackUrl: '/profiles'
             })
-            router.push('/')
         } catch (error) {
             console.log(error);
         }
-    }, [email, password, router])
+    }, [email, password])
  
     const register = useCallback(async () => {
         try {
@@ -102,7 +95,7 @@ import {FaGithub} from 'react-icons/fa'
                                     flex items-center justify-center cursor-pointer 
                                     hover:opacity-80 transition
                                 '
-                                onClick={() => signIn('google', {callbackUrl:'/'})}
+                                onClick={() => signIn('google', {callbackUrl:'/profiles'})}
                             >
                                 <FcGoogle size={30} />
                             </div>
@@ -111,7 +104,7 @@ import {FaGithub} from 'react-icons/fa'
                                     flex items-center justify-center cursor-pointer 
                                     hover:opacity-80 transition
                                 '
-                                onClick={() => signIn('github', {callbackUrl:'/'})}
+                                onClick={() => signIn('github', {callbackUrl:'/profiles'})}
                             >
                                 <FaGithub size={30} />
                             </div>
