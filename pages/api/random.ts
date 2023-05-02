@@ -9,14 +9,14 @@ export default async function hanlder(req: NextApiRequest, res:NextApiResponse) 
     }
     
     try {
-        await serverAuth(req)
+        await serverAuth(req,res)
         
         const movieCount = await prismadb.user.count();
         const randomIndex = Math.floor(Math.random() * movieCount);
         
         const randomMovies = await prismadb.movie.findMany({
+            skip:randomIndex,
             take:1,
-            skip:randomIndex
         })
         
         return res.status(200).json(randomMovies[0])
